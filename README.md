@@ -12,6 +12,7 @@
 |---|---|---|
 | `QwenImage2.1/` | 阿里 Qwen-Image 2.1（文生图 / 图像编辑） | Agent 技能：`jeek-qi21-prompt` —— 提示词增强、双模式（t2i / edit）、缺失信息追问、JSON 校验 |
 | `MOSSImage/` | 上海人工智能实验室 OpenMOSS MOSS-Image（文生图 / 图文排版） | Agent 技能：`jeek-moss-prompt` —— 提示词增强、双模式（caption / Layout）、缺失信息追问、JSON 校验 + 编译 |
+| `H3/` | MiniMax H3（文本 / 图像 / 视频 / 音频多模态视频生成） | Agent 技能：`jeek-h3-prompt` —— 五模式（T2VA / I2VA / FL2VA / L2VA / Ref2VA）提示词编写、缺失信息追问、输出结构校验 |
 
 ## 目录结构
 
@@ -38,6 +39,16 @@ Jeek_Prompt_Engineer/
 │       │   └── missing_info.md     # 缺失信息闸门与追问模板
 │       └── scripts/
 │           └── prompt_validator.py # 原创 JSON 校验 + 编译（caption / Layout）
+├── H3/
+│   ├── README.md                # 本分类自述（可单独查看 / 安装）
+│   └── jeek-h3-prompt/           # 可直接复制安装到任意 Agent 的 skills 目录
+│       ├── SKILL.md
+│       ├── references/
+│       │   ├── base_guide.md       # 基础四模式 T2VA/I2VA/FL2VA/L2VA 编写指南
+│       │   ├── ref_guide.md        # 全参考 Ref2VA 六段式编写指南（参考标签体系）
+│       │   └── missing_info.md      # 缺失信息闸门与追问模板
+│       └── scripts/
+│           └── prompt_validator.py # 原创输出结构校验器（base / ref / auto）
 └── docs/                          # 跨模型通用文档（预留）
 ```
 
@@ -67,6 +78,13 @@ Jeek_Prompt_Engineer/
 2. Agent 安装后，直接说「帮我把这个想法写成 MOSS 出图提示词」或「用 MOSS-Image 做个精准排版的封面」即可触发；技能自动判别 caption / Layout，缺信息时主动追问。
 3. 校验 + 编译脚本可独立运行：`python MOSSImage/jeek-moss-prompt/scripts/prompt_validator.py --mode caption`（或 `--mode layout`）。
 
+**H3 示例：**
+1. 复制下列网址之一，直接发给你的 Agent：
+   - 安装整个 H3 分类：`https://github.com/Josia-doit/Jeek_Prompt_Engineer/tree/main/H3`
+   - 只安装该技能：`https://github.com/Josia-doit/Jeek_Prompt_Engineer/tree/main/H3/jeek-h3-prompt`
+2. Agent 安装后，直接说「帮我把这个想法写成 H3 视频提示词」或「用 H3 做图生视频，首帧是这张图」即可触发；技能自动判定输入模态（T2VA / I2VA / FL2VA / L2VA / Ref2VA），缺信息时主动追问。
+3. 输出结构校验脚本可独立运行：`python H3/jeek-h3-prompt/scripts/prompt_validator.py --mode base`（或 `--mode ref` / `--mode auto`）。
+
 > 仓库所有者：`Josia-doit`（公开仓库，欢迎复用与共建）。
 
 ## 如何新增一个模型分类
@@ -83,4 +101,4 @@ Jeek_Prompt_Engineer/
 - 每个分类目录下：一份自述 `README.md` + 一个或多个**可直接安装**的技能文件夹，结构统一。
 - 技能内容为**通用型**：以 WorkBuddy 为主要参考实现，同时兼容其他 Agent（追问提供「结构化问询工具」与「编号文本」两种路径，见技能内说明）。
 - 文档与说明使用中文，技术术语（如 `wh_ratio`、`ratio_follow`、t2i / edit / caption / Layout）保留英文原样。
-- 当前分类：`QwenImage2.1`（Qwen-Image 2.1 文生图 / 图像编辑提示词增强）、`MOSSImage`（MOSS-Image 文生图 / 图文排版提示词增强，caption / Layout 双模式）。
+- 当前分类：`QwenImage2.1`（Qwen-Image 2.1 文生图 / 图像编辑提示词增强）、`MOSSImage`（MOSS-Image 文生图 / 图文排版提示词增强，caption / Layout 双模式）、`H3`（MiniMax H3 多模态视频生成提示词编写，T2VA / I2VA / FL2VA / L2VA / Ref2VA 五模式）。
